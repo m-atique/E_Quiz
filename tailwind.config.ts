@@ -9,6 +9,19 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			inter: ["var(--font-inter)"],
+			roboto_mono: ["var(--font-roboto-mono)"],
+			dosis: ["var(--font-Dosis)"],
+			montserrat: ["var(--font-Montserrat)"],
+			marcellus: ["var(--font-Marcellus)"],
+			forum: ["var(--font-Forum)"],
+			caudex: ["var(--font-Caudex)"],
+			maven:["var(--font-Maven)"],
+			laBelle:["var(--font-LaBelle)"],
+			mukta:["var(--font-Mukta)"]
+
+		  },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
@@ -21,6 +34,12 @@ const config: Config = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			  qblue: "#6495ED",
+			  qash: "#E6E6FA",
+			  spred: "#F36260",
+			  qblack: "#262626",
+			  qwhite: "#FFFFFF",
+			  qfocus:"#FFFFF0",
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
