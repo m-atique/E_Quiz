@@ -146,15 +146,17 @@ export default function SigninForm() {
     <div 
     className="flex flex-col min-h-screen bg-cover bg-center"
   >
-      <div className="flex-1 flex items-center justify-center bg-qblue"
-          style={{ backgroundImage: "url('/quiz.jpg')",
-                  backgroundSize: 'cover',               // Ensures the image covers the entire background
-          }} // Update the path to your image
-
-      
+      <div className="flex-1 flex items-center justify-left px-36"
+          style={{ backgroundImage: "url('/to.jpg')",
+                  backgroundSize: 'cover',      
+                  backgroundRepeat: 'no-repeat',        // Prevents the image from repeating
+                  backgroundPosition: 'center center',  // Centers the image in the viewport
+                  height: '100vh',                      // Sets the height to 100% of the viewport height
+                  width: '100vw', 
+          }} 
       >
         <form onSubmit={handleSubmit}>
-        <Card className="w-[500px] items-center justify-center from-teal-300 to-green-100">
+        <Card className="w-[500px] items-center justify-center">
         <CardHeader className="space-y-1 ">
               <CardTitle className="text-3xl font-bold ">Sign In</CardTitle>
               <CardDescription className="text-black ">
@@ -203,14 +205,14 @@ export default function SigninForm() {
               />
             </CardFooter>
           </Card>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-2 text-center text-sm">
             Don't have an account? Contact the IT Branch
           </div>
         </form>
       </div>
 
       {/* Footer */}
-      <footer className="text-center text-black py-2">
+      <footer className="text-center text-black py-1">
         <p className="text-black">Copyright &copy; Reserved by the IT Branch of Training College Sheikhpura</p>
       </footer>
 

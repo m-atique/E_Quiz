@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add to your CSS file or in a <style jsx> block if using styled components */
+.menubar {
+  display: flex;
+  gap: 1rem; /* Adjust spacing between items */
+  align-items: center;
+}
+
+.menubarItems {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

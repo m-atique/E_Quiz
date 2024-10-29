@@ -1,8 +1,9 @@
 import React from 'react'
+import MenubarAdmin from '../admin/adminHeader'
 
 const AdminHome = () => {
   return (
-    <div>AdminHome</div>
+    <div><MenubarAdmin /></div>
   )
 }
 
