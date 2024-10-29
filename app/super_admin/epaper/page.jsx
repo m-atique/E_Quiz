@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
 import Select from 'react-select';
+import Paper,{ printReport } from './epaper'
+
 
 const Equiz = () => {
     const [course, setCourse] = useState(null);
@@ -73,9 +75,7 @@ const Equiz = () => {
         });
     };
 
-    const handlePrint = () => {
-        window.print();
-    };
+ 
 
     return (
         <div className="p-12 bg-gray-100 min-h-screen">
@@ -203,7 +203,28 @@ const Equiz = () => {
                     </div>
                 </div>
                 {/* Quiz Preview Section */}
-               
+                <div className="w-full md:w-1/2 bg-white shadow-xl rounded-lg p-8 relative print:p-0 print:shadow-none">
+                <div>
+
+                <button
+          onClick={() =>printReport( {course,
+            subject,
+            medium,
+            easy,
+            mediumQuiz,
+            hard,
+            marks,
+            totalQuizzes,
+            totalMarks,
+            instruction})}
+          className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 print:hidden z-50"
+          >
+          Print
+        </button>
+          </div>
+
+                <Paper course ={course} subject ={subject} medium ={medium} totalQuizzes ={totalQuizzes} totalMarks={totalMarks} instruction ={instruction}  />
+                </div>
             </div>
         </div>
     );
