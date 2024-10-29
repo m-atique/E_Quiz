@@ -205,163 +205,165 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="flex flex-col p-4 min-h-screen  bg-qblue"
-    style={{ backgroundImage: "url('/quiz.jpg')",
-        backgroundSize: 'cover',               // Ensures the image covers the entire background
-}} // Update the path to your image
-    
+    <div 
+      className="flex-1 flex items-center justify-left px-36 overflow-y-auto  py-5"
+      style={{
+        backgroundImage: "url('/to.jpg')", // Update the path to your image
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        width: '100vw',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-
-    <div className="flex-1 flex items-center justify-center"
-    
-    >
-      <form onSubmit={handleSubmit}>
-        <Card className="w-[500px]">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
-            <CardDescription>
-              Enter your details to create a new account
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Existing fields */}
-            <div className="space-y-2">
-              <Label htmlFor="uname">Username</Label>
-              <Input
-                id="uname"
-                name="uname"
-                type="text"
-                placeholder="username"
-                value={formData.uname}
-                onChange={handleChange}
-                className={errors.uname ? "border-red-500" : "border-black"}
-              />
-              {errors.uname && (
-                <p className="text-red-500 text-sm">{errors.uname}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="rank">Rank</Label>
-              <Input
-                id="rank"
-                name="rank"
-                type="text"
-                placeholder="rank"
-                value={formData.rank}
-                onChange={handleChange}
-                className={errors.rank ? "border-red-500" :  "border-black"}
-              />
-              {errors.rank && (
-                <p className="text-red-500 text-sm">{errors.rank}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="designation">Designation</Label>
-              <Input
-                id="designation"
-                name="designation"
-                type="text"
-                placeholder="designation"
-                value={formData.designation}
-                onChange={handleChange}
-                className={errors.designation ? "border-red-500" : "border-black"}
-              />
-              {errors.designation && (
-                <p className="text-red-500 text-sm">{errors.designation}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cnic">CNIC</Label>
-              <Input
-                id="cnic"
-                name="cnic"
-                type="text"
-                placeholder="cnic"
-                value={formData.cnic}
-                onChange={handleChange}
-                className={errors.cnic ? "border-red-500" :  "border-black"}
-              />
-              {errors.cnic && (
-                <p className="text-red-500 text-sm">{errors.cnic}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={errors.password ? "border-red-500" : "border-black"}
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password_confirmation">Confirm Password</Label>
-              <Input
-                id="password_confirmation"
-                name="password_confirmation"
-                type="password"
-                placeholder="confirm password"
-                value={formData.password_confirmation}
-                onChange={handleChange}
-                className={errors.password_confirmation ? "border-red-500" :  "border-black"}
-              />
-              {errors.password_confirmation && (
-                <p className="text-red-500 text-sm">{errors.password_confirmation}</p>
-              )}
-            </div>
-
-            {/* New utype Field */}
-            <div className="space-y-2">
-              {/* <Label htmlFor="utype">utype</Label> */}
-              <select
-                id="utype"
-                name="utype"
-                value={formData.utype}
-                onChange={handleChange}
-                className={errors.utype ? "border-red-500" :  "border-black text-m"}
-              >
-                <option value="">Select Role</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </select>
-              {errors.utype && (
-                <p className="text-red-500 text-sm">{errors.utype}</p>
-              )}
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col">
-            <SubmitButton className="w-full" text={loading ? "Loading..." : "Sign Up"} loadingText="Loading" />
-          </CardFooter>
-        </Card>
-        <div className="mt-4 text-center text-sm text-white">
-          Have an account?{" "}
-          <Link href="../auth/signin" className="text-amber-300">
-            Sign In
-          </Link>
-        </div>
-      </form>
-
-      {/* Modal for error messages */}
-      {showModal && (
-        <div className="fixed inset-0 flex text-center items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded shadow-md item-center">
-            <p>{modalMessage}</p>
-            <button
-              className=" item-center text-center mt-4 px-4 py-2 bg-blue-600 text-white rounded "
-              onClick={handleModalClose}
-            >
-              Close
-            </button>
+      {/* Wrap your form in a div that allows scrolling */}
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+          <Card className="w-[500px]">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-3xl font-bold">Sign Up</CardTitle>
+              <CardDescription>
+                Enter your details to create a new account
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Existing fields */}
+              <div className="space-y-2">
+                <Label htmlFor="uname">Username</Label>
+                <Input
+                  id="uname"
+                  name="uname"
+                  type="text"
+                  placeholder="username"
+                  value={formData.uname}
+                  onChange={handleChange}
+                  className={errors.uname ? "border-red-500" : "border-black"}
+                />
+                {errors.uname && (
+                  <p className="text-red-500 text-sm">{errors.uname}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="rank">Rank</Label>
+                <Input
+                  id="rank"
+                  name="rank"
+                  type="text"
+                  placeholder="rank"
+                  value={formData.rank}
+                  onChange={handleChange}
+                  className={errors.rank ? "border-red-500" :  "border-black"}
+                />
+                {errors.rank && (
+                  <p className="text-red-500 text-sm">{errors.rank}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="designation">Designation</Label>
+                <Input
+                  id="designation"
+                  name="designation"
+                  type="text"
+                  placeholder="designation"
+                  value={formData.designation}
+                  onChange={handleChange}
+                  className={errors.designation ? "border-red-500" : "border-black"}
+                />
+                {errors.designation && (
+                  <p className="text-red-500 text-sm">{errors.designation}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="cnic">CNIC</Label>
+                <Input
+                  id="cnic"
+                  name="cnic"
+                  type="text"
+                  placeholder="cnic"
+                  value={formData.cnic}
+                  onChange={handleChange}
+                  className={errors.cnic ? "border-red-500" :  "border-black"}
+                />
+                {errors.cnic && (
+                  <p className="text-red-500 text-sm">{errors.cnic}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={errors.password ? "border-red-500" : "border-black"}
+                />
+                {errors.password && (
+                  <p className="text-red-500 text-sm">{errors.password}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password_confirmation">Confirm Password</Label>
+                <Input
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  type="password"
+                  placeholder="confirm password"
+                  value={formData.password_confirmation}
+                  onChange={handleChange}
+                  className={errors.password_confirmation ? "border-red-500" :  "border-black"}
+                />
+                {errors.password_confirmation && (
+                  <p className="text-red-500 text-sm">{errors.password_confirmation}</p>
+                )}
+              </div>
+  
+              {/* New utype Field */}
+              <div className="space-y-2">
+                {/* <Label htmlFor="utype">utype</Label> */}
+                <select
+                  id="utype"
+                  name="utype"
+                  value={formData.utype}
+                  onChange={handleChange}
+                  className={errors.utype ? "border-red-500" :  "border-black text-m"}
+                >
+                  <option value="">Select Role</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+                {errors.utype && (
+                  <p className="text-red-500 text-sm">{errors.utype}</p>
+                )}
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col">
+              <SubmitButton className="w-full" text={loading ? "Loading..." : "Sign Up"} loadingText="Loading" />
+            </CardFooter>
+          </Card>
+          <div className="mt-2 text-center text-m text-black">
+            Have an account?{" "}
+            <Link href="../auth/signin" className="text-blue-900 font-bold text-m">
+              Sign In
+            </Link>
           </div>
-        </div>
-      )}
-    </div>
-    </div>
+        </form>
+  
+        {/* Modal for error messages */}
+        {showModal && (
+          <div className="fixed inset-0 flex text-center items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded shadow-md item-center">
+              <p>{modalMessage}</p>
+              <button
+                className="item-center text-center mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                onClick={handleModalClose}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
   );
 }

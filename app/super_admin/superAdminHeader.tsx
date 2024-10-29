@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import { MdExitToApp, MdLogin, MdAppRegistration, MdPassword } from "react-icons/md";
 
-export default function AdminHome() {
+export default function SuperAdminHome() {
   return (
     <div className="flex w-full items-center justify-between p-2 bg-qblue">
       <div className="text-qwhite text-4xl font-sans font-semibold uppercase">
@@ -55,7 +55,7 @@ export default function AdminHome() {
         {/* Sign Out Menu Item */}
         <MenubarMenu>
           <MenubarTrigger>
-            <Link href={'/auth/signin'}>
+            <Link href={'/auth/signout'}>
               <div className="flex items-center space-x-1 text-purple-500">
                 <MdExitToApp size={25} />
                 <span>Logout</span>
