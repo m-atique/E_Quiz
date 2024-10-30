@@ -160,15 +160,21 @@ export default function SignupForm() {
       setLoading(true);
 
       try {
+        console.log("formData", formData)
+
         // Assuming you have an API endpoint for signing up
-        console.log("tesintgggg", formData)
         const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/user/register`, formData,{
           headers: {
             Authorization: `Bearer ${token}`,
             // Other headers if needed, e.g., 'Content-Type': 'application/json'
-          },
+          },  
         });
-        
+        console.log("response", response)
+        console.log("response.data", response.data)
+        console.log("response.data.data", response.data.data)
+        console.log("utype", response.data.utype)
+
+
         // setModalMessage("Sign up successfully");
         // setShowModal(true);
 
@@ -229,7 +235,7 @@ export default function SignupForm() {
             <CardContent className="space-y-4">
               {/* Existing fields */}
               <div className="space-y-2">
-                <Label htmlFor="uname">Username</Label>
+                <Label htmlFor="uname">Username*</Label>
                 <Input
                   id="uname"
                   name="uname"
@@ -244,7 +250,7 @@ export default function SignupForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="rank">Rank</Label>
+                <Label htmlFor="rank">Rank*</Label>
                 <Input
                   id="rank"
                   name="rank"
@@ -259,7 +265,7 @@ export default function SignupForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="designation">Designation</Label>
+                <Label htmlFor="designation">Designation*</Label>
                 <Input
                   id="designation"
                   name="designation"
@@ -274,14 +280,34 @@ export default function SignupForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="cnic">CNIC</Label>
+                <Label htmlFor="cnic">CNIC*</Label>
                 <Input
                   id="cnic"
                   name="cnic"
                   type="text"
                   placeholder="cnic"
                   value={formData.cnic}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    
+                    // Check if input is numeric and update formData
+                    if (/^\d*$/.test(value)) {
+                      handleChange(e);
+                      
+                      // Set error if length is not 13 digits
+                      if (value.length !== 13) {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          cnic: "CNIC must be exactly 13 digits long",
+                        }));
+                      } else {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          cnic: "",
+                        }));
+                      }
+                    }
+                  }}
                   className={errors.cnic ? "border-red-500" :  "border-black"}
                 />
                 {errors.cnic && (
@@ -289,7 +315,7 @@ export default function SignupForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Password*</Label>
                 <Input
                   id="password"
                   name="password"
@@ -304,7 +330,7 @@ export default function SignupForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password_confirmation">Confirm Password</Label>
+                <Label htmlFor="password_confirmation">Confirm Password*</Label>
                 <Input
                   id="password_confirmation"
                   name="password_confirmation"
@@ -322,20 +348,31 @@ export default function SignupForm() {
               {/* New utype Field */}
               <div className="space-y-2">
                 {/* <Label htmlFor="utype">utype</Label> */}
-                <select
-                  id="utype"
+                <Label htmlFor="utype">Select a Role*</Label>
+                <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
                   name="utype"
-                  value={formData.utype}
+                  value="admin"
+                  checked={formData.utype === "admin"}
                   onChange={handleChange}
                   className={errors.utype ? "border-red-500" :  "border-black text-m"}
-                >
-                  <option value="">Select Role</option>
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
+                />
+                <span>Admin</span>
+               
                 {errors.utype && (
                   <p className="text-red-500 text-sm">{errors.utype}</p>
                 )}
+                <input
+                  type="radio"
+                  name="utype"
+                  value="user"
+                  checked={formData.utype === "user"}
+                  onChange={handleChange}
+                  className={errors.utype ? "border-red-500" : "border-black"}
+                />
+                <span>User</span>
+              </label>
               </div>
             </CardContent>
             <CardFooter className="flex flex-col">

@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
+
 function Loader({ text }: { readonly text: string }) {
   return (
     <div className="flex items-center space-x-2">
@@ -59,6 +60,7 @@ function SubmitButton({
 
 const token = Cookies.get("authToken");
 
+
 export default function ChangePassword() {
   const router = useRouter();
 
@@ -78,6 +80,7 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const validateForm = () => {
     const newErrors = { uname: "", oldpw: "", password: "", password_confirmation: "" };
@@ -114,6 +117,7 @@ export default function ChangePassword() {
     e.preventDefault();
     if (validateForm()) {
       setLoading(true);
+
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/user/change-password`, formData, {
           headers: {
@@ -122,11 +126,18 @@ export default function ChangePassword() {
         });
 
         if (response.status === 200 && response.data.status === 1) {
-          setModalMessage("Password changed successfully.");
+          setSuccessMessage("Password changed successfully.");
+          setFormData({
+            uname: "",
+            oldpw: "",
+            password: "",
+            password_confirmation: "",
+          });
         } else {
           setModalMessage("Failed to change password. Please try again.");
+          setShowModal(true);
         }
-        setShowModal(true);
+        
       } catch (error) {
         setModalMessage("An error occurred while changing the password.");
         setShowModal(true);
@@ -134,6 +145,10 @@ export default function ChangePassword() {
         setLoading(false);
       }
     }
+  };
+
+  const handleCloseSuccess = () => {
+    setSuccessMessage(null);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,6 +265,23 @@ export default function ChangePassword() {
           </Card>
         </form>
       </div>
+      {/* Success Message Modal */}
+      {successMessage && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] bg-white border border-gray-300 rounded-md shadow-lg p-6 z-50">
+              <h3 className="text-xl font-bold mb-4 text-center">Success</h3>
+              <p className="text-center">{successMessage}</p>
+              <div className="mt-4 flex justify-center">
+                <button
+                  onClick={handleCloseSuccess}
+                  className="bg-teal-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-teal-700"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       {/* Modal for password change feedback */}
       {showModal && (
