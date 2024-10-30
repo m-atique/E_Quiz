@@ -23,14 +23,21 @@ const QuestionForm = () => {
 
   const validateForm = () => {
     let formErrors = {};
+    
     if (!formData.subject) formErrors.subject = "Subject is required.";
     if (!formData.mediumType) formErrors.mediumType = "Medium type is required.";
     if (!formData.difficulty) formErrors.difficulty = "Difficulty level is required.";
     if (!formData.question) formErrors.question = "Question is required.";
+
+    const isLevelSelected = Object.values(formData.levels).some(value => value);
+    if (!isLevelSelected) formErrors.levels = "At least one course level must be selected.";
+
     formData.options.forEach((option, index) => {
       if (!option) formErrors[`option${index + 1}`] = `Option ${index + 1} is required.`;
     });
+
     if (!formData.correctAnswer) formErrors.correctAnswer = "Correct answer is required.";
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
@@ -64,10 +71,8 @@ const QuestionForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      
-
       <div>
-        <h2 className="bg-blue-500 p-2  text-white text-center mb-4">ADD MCQs</h2>
+        <h2 className="bg-blue-500 p-2 text-white text-center mb-4">ADD MCQs</h2>
         <label>Select Subject:</label>
         <select name="subject" value={formData.subject} onChange={handleInputChange}>
           <option value="">--Select Subject--</option>
@@ -119,6 +124,7 @@ const QuestionForm = () => {
         </label>
         {errors.difficulty && <p>{errors.difficulty}</p>}
       </div>
+
       <div>
         <label>Courses</label>
         <div>
@@ -134,7 +140,9 @@ const QuestionForm = () => {
             </label>
           ))}
         </div>
+        {errors.levels && <p>{errors.levels}</p>}
       </div>
+
       <div>
         <label>Question:</label>
         <textarea
