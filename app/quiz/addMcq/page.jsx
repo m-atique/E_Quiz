@@ -140,7 +140,7 @@ async function getCourseslist() {
   return (
     <div className=" bg-blue-400 ">
     <form onSubmit={handleSubmit}>
-      <div className={`${styles.outerview} rounded-t-lg `}>
+      <div className={`${styles.outerview} border-t-blue-800 border-t-2 rounded-t-lg `}>
         <h2 className={`${styles.heading} bg-blue-900 rounded-b-2xl text-white border-b-4 border-b-yellow-500` } >ADD MCQs </h2>
         <label>Select Subject:</label>
         <select name="subjectid" value={formData.subjectid} onChange={handleInputChange}>
@@ -344,7 +344,7 @@ async function getCourseslist() {
 const styles = {
  
   outerview:
-    'bg-blue-100   shadow-blue-900 pb-4 p-8 pt-0  ',
+    'bg-blue-100   shadow-blue-900 pb-4 p-8 pt-0 border-r-4 border-l-4  border-blue-800  ',
   heading:
   'border-b text-lg border-blue-500 p-4  font-bold text-center text-blue-800 mb-4 '
 };
