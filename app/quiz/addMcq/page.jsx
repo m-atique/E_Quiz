@@ -1,7 +1,9 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import './QuestionForm.css';
+
 import axios from "axios";
+import { Heading } from "lucide-react";
 const QuestionForm = () => {
 
   useEffect(() => {
@@ -136,9 +138,10 @@ async function getCourseslist() {
   
 
   return (
+    <div className=" bg-blue-400 ">
     <form onSubmit={handleSubmit}>
-      <div>
-        <h2 className="border-b text-lg border-blue-500 p-2 font-bold text-center text-blue-800 mb-4">ADD MCQs </h2>
+      <div className={`${styles.outerview} rounded-t-lg `}>
+        <h2 className={`${styles.heading} bg-blue-900 rounded-b-2xl text-white border-b-4 border-b-yellow-500` } >ADD MCQs </h2>
         <label>Select Subject:</label>
         <select name="subjectid" value={formData.subjectid} onChange={handleInputChange}>
           <option value="">--Select Subject--</option>
@@ -152,7 +155,7 @@ async function getCourseslist() {
         {errors.subjectid && <p>{errors.subjectid}</p>}
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         <label>Medium Type:</label>
         <select name="medium" value={formData.medium} onChange={handleInputChange}>
           <option value="">--Select Medium--</option>
@@ -162,7 +165,7 @@ async function getCourseslist() {
         {errors.medium && <p>{errors.medium}</p>}
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         <label>Dificulty Level:</label>
         <label>
           <input
@@ -194,7 +197,7 @@ async function getCourseslist() {
         {errors.stage && <p>{errors.stage}</p>}
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         <label>Select Courses</label>
         <div className="broder bg-gray-50 grid grid-cols-2">
         { courselist && courselist.map((item, key) => (
@@ -213,7 +216,7 @@ async function getCourseslist() {
         {errors.courseid && <p>{errors.courseid}</p>}
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         <label>Question:</label>
         <textarea
         className=" min-h-20 "
@@ -235,11 +238,12 @@ async function getCourseslist() {
           {errors[`option${index + 1}`] && <p>{errors[`option${index + 1}`]}</p>}
         </div>
       ))} */}
-      <div>
+
+      <div className={styles.outerview}>
         
         <label>Option A:</label>
         <textarea
-         className=" min-h-14 bg-gray-50"
+         className=" min-h-8 bg-gray-50"
           name="optA"
           value={formData.optA}
           onChange={handleInputChange}
@@ -248,7 +252,7 @@ async function getCourseslist() {
        
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         
         <label>Option B:</label>
         <textarea
@@ -261,7 +265,7 @@ async function getCourseslist() {
        
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         
         <label>Option C:</label>
         <textarea
@@ -274,7 +278,7 @@ async function getCourseslist() {
        
       </div>
 
-      <div>
+      <div className={styles.outerview}>
         
         <label>Option D:</label>
         <textarea
@@ -287,7 +291,7 @@ async function getCourseslist() {
        
       </div>
 
-      <div>
+      <div className={styles.outerview}>
   <label>Correct Answer:</label>
   <select name="answer" value={formData.answer} onChange={handleInputChange}>
     <option value="">--Select Correct Answer--</option>
@@ -301,9 +305,9 @@ async function getCourseslist() {
   </select>
   {errors.answer && <p>{errors.answer}</p>}
 </div>
-
+<div className={styles.outerview}>
       <button type="submit">Submit</button>
-
+</div>
       {showDialog && showDialog && (
        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] bg-white border border-gray-300 rounded-md shadow-lg p-6 z-50">
@@ -322,11 +326,28 @@ async function getCourseslist() {
     )}
 
     </form>
-    
+    </div>
      
      
 
   );
 };
+
+// const styles2 = StyleSheet.create({
+//   div: {
+//     flex: 1,
+
+//   }
+
+// });
+
+const styles = {
+ 
+  outerview:
+    'bg-blue-100   shadow-blue-900 pb-4 p-8 pt-0  ',
+  heading:
+  'border-b text-lg border-blue-500 p-4  font-bold text-center text-blue-800 mb-4 '
+};
+
 
 export default QuestionForm;

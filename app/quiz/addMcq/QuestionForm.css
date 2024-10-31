@@ -1,16 +1,16 @@
 form {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     /*border: 1px solid #ccc;*/
-    border-radius: 8px;
+    /* border-radius: 8px; */
     
   }
   
-  form div {
-    margin-bottom: 15px;
-    padding: 8px;
-  }
+  /* form div {
+    /* margin-bottom: 15px; */
+    /* padding: 8px; 
+  } */
   
   label {
     font-weight: bold;
@@ -57,6 +57,6 @@ form {
   p {
     color: red;
     font-size: 0.875rem;
-    margin-top: 5px;
+    margin-top: 3px;
   }
   
