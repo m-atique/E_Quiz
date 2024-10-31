@@ -2,7 +2,7 @@ form {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-radius: 8px;
     
   }
@@ -32,9 +32,9 @@ form {
     margin-right: 5px;
   }
   
-  textarea {
+  /* textarea {
     min-height: 80px;
-  }
+  } */
   
   button[type="submit"] {
     display: block;
