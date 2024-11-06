@@ -41,19 +41,21 @@ async function getCourseslist() {
     //   basic: false,
     // }
     addedBy:'Ahsan PO',
-    date:new Date(),
+    date: new Date().toISOString(),
     courseid:[]
 
   });
 
   const [errors, setErrors] = useState({});
 
+
+
   const handleReset = async ()=>{
 
     setFormData({  // Clear form data
       subjectid: "",
       medium: "",
-      stage: "",
+      stage: "medium",
       question: "",
       optA: '',
       optB: '',
@@ -62,8 +64,9 @@ async function getCourseslist() {
       answer: "",
       addedBy: '',
       date: '',
-      courseid:[]
-    });
+      courseid:""
+
+       });
   
   }
 
@@ -96,29 +99,27 @@ async function getCourseslist() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  const handleOptionChange = (index, value, checked) => {
-    let newOptions = [...formData.courseid];
-  
-    if (checked) {
-      // Add course ID if checked
-      newOptions[index] = value;
-    } else {
-      // Remove course ID if unchecked
-      newOptions[index] = "";
-    }
-  
-    // Filter out undefined and empty values
-    newOptions = newOptions.filter(option => option);
-  
-    setFormData({ ...formData, courseid: newOptions });
-  };
-
+ 
 
   const handleCloseDialog = () => {
     setShowDialog(false);
   };
 
+  const handleOptionChange = (value, checked) => {
+   
+    let newOptions = [...formData.courseid];
+  
+    if (checked) {
+        // Add course ID if checked
+        newOptions.push(value);
+        
+    } else {
+        // Remove course ID if unchecked
+        newOptions = newOptions.filter((course) => course !== value);
+    }
+
+    setFormData({ ...formData, courseid: newOptions });
+};
 
 
   const handleSubmit = async (e) => {
@@ -132,21 +133,27 @@ async function getCourseslist() {
 
       if(response.data.status===0){
        
-        setShowDialog(true); // Show dialog
-        setFormData({  // Clear form data
-          subjectid: "",
-          medium: "",
-          stage: "",
-          question: "",
-          optA: '',
-          optB: '',
-          optC: '',
-          optD: '',
-          answer: "",
-          addedBy: '',
-          date: '',
-          courseid:[]
-        });
+        setShowDialog(true); 
+        // handleOptionChange(formData.courseid, false)
+        // setFormData({...formData,  
+        //   subjectid: "",
+        //   medium: "",
+        //   stage: "",
+        //   question: "",
+        //   optA: '',
+        //   optB: '',
+        //   optC: '',
+        //   optD: '',
+        //   answer: "",
+        //   addedBy: '',
+        //   date: '',
+        //   courseid:[]
+        // });
+handleReset()
+        
+  //     console.log("courses................", formData.courseid)
+  //     setFormData({...formData, courseid:[]})
+  //     console.log("courses....after............", formData.courseid)
        }
        else if(response.data.status===1) {
         alert("Question already exist..")
@@ -154,7 +161,10 @@ async function getCourseslist() {
      }
     }
   
-
+  //   useEffect(() => {
+  //     console.log("courses after reset:", formData.courseid);
+  // }, [formData]);
+  
 
   return (
     <div className=" bg-gray-100 ">
@@ -225,10 +235,8 @@ async function getCourseslist() {
             type="checkbox" 
             name="courseid"
             id={item.id} 
-            value={item.id}
-           // checked={formData.courseid.includes(item.id)}
-          // checked={formData?.courseid.includes(item.id)} 
-            onChange={(e) => handleOptionChange(key, e.target.value, e.target.checked)}    
+            checked={formData.courseid.includes(item.id)?item.id:""} // Ensure checkbox reflects state
+            onChange={(e) => handleOptionChange(item.id, e.target.checked)}  
         />
         <label htmlFor={item.id}>{item.name}</label>
     </div>
@@ -321,7 +329,7 @@ async function getCourseslist() {
   {errors.answer && <p>{errors.answer}</p>}
 </div>
 <div className={`${styles.outerview} flex flex-row gap-6 `}>
-      <button className="min-w-36 bg-red-500 text-white rounded-md" type="reset" onClick={()=>handleReset()}>Reset</button>
+      <button className="min-w-36 bg-red-500 text-white rounded-md hover:bg-red-800" type="reset" onClick={()=>handleReset()}>Reset</button>
       <button className="min-w-36 " type="submit">Submit</button>
 </div>
       {showDialog && showDialog && (
