@@ -24,11 +24,10 @@ async function getCourseslist() {
 }
 
   const [formData, setFormData] = useState({
-    subjectid: "1",
+    subjectid: "",
     medium: "",
-    stage: "",
+    stage: "medium",
     question: "",
-   //  options: ["", "", "", ""],
     optA:'',
     optC:'',
     optB:'',
@@ -42,12 +41,31 @@ async function getCourseslist() {
     //   basic: false,
     // }
     addedBy:'Ahsan PO',
-    date:'2024-05-05',
+    date:new Date(),
     courseid:[]
 
   });
 
   const [errors, setErrors] = useState({});
+
+  const handleReset = async ()=>{
+
+    setFormData({  // Clear form data
+      subjectid: "",
+      medium: "",
+      stage: "",
+      question: "",
+      optA: '',
+      optB: '',
+      optC: '',
+      optD: '',
+      answer: "",
+      addedBy: '',
+      date: '',
+      courseid:[]
+    });
+  
+  }
 
   const validateForm = () => {
     let formErrors = {};
@@ -106,17 +124,17 @@ async function getCourseslist() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted successfully:", formData);
+//console.log("Form submitted successfully:", formData);
       // Form submission logic here
 
   const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank`,formData)
-  //console.log("api response----------------", response.data.status)
+  //console.log("api response----------------", response)
 
       if(response.data.status===0){
        
         setShowDialog(true); // Show dialog
         setFormData({  // Clear form data
-          subjectid: "1",
+          subjectid: "",
           medium: "",
           stage: "",
           question: "",
@@ -125,23 +143,24 @@ async function getCourseslist() {
           optC: '',
           optD: '',
           answer: "",
-          addedBy: 'Ahsan PO',
-          date: '2024-05-05',
-          courseid: []
+          addedBy: '',
+          date: '',
+          courseid:[]
         });
        }
-       else {
-        alert("Error.........")
-       }
+       else if(response.data.status===1) {
+        alert("Question already exist..")
+       } else {alert("Error.......")}
      }
     }
   
 
+
   return (
-    <div className=" bg-blue-400 ">
+    <div className=" bg-gray-100 ">
     <form onSubmit={handleSubmit}>
       <div className={`${styles.outerview} border-t-blue-800 border-t-2 rounded-t-lg `}>
-        <h2 className={`${styles.heading} bg-blue-900 rounded-b-2xl text-white border-b-4 border-b-yellow-500` } >ADD MCQs </h2>
+        <h2 className={`${styles.heading} hover:bg-blue-600 bg-blue-900 rounded-b-2xl text-white border-b-4 border-b-yellow-500` } >MCQ Addition Form</h2>
         <label>Select Subject:</label>
         <select name="subjectid" value={formData.subjectid} onChange={handleInputChange}>
           <option value="">--Select Subject--</option>
@@ -199,7 +218,7 @@ async function getCourseslist() {
 
       <div className={styles.outerview}>
         <label>Select Courses</label>
-        <div className="broder bg-gray-50 grid grid-cols-2">
+        <div className="broder  grid grid-cols-2">
         { courselist && courselist.map((item, key) => (
     <div key={key} className="flex flex-row gap-2 ">
         <input 
@@ -207,6 +226,8 @@ async function getCourseslist() {
             name="courseid"
             id={item.id} 
             value={item.id}
+           // checked={formData.courseid.includes(item.id)}
+          // checked={formData?.courseid.includes(item.id)} 
             onChange={(e) => handleOptionChange(key, e.target.value, e.target.checked)}    
         />
         <label htmlFor={item.id}>{item.name}</label>
@@ -226,18 +247,6 @@ async function getCourseslist() {
         ></textarea>
         {errors.question && <p>{errors.question}</p>}
       </div>
-
-      {/* {formData.options.map((option, index) => (
-        <div key={index}>
-          <label>Option {index + 1}:</label>
-          <input
-            type="text"
-            value={option}
-            onChange={(e) => handleOptionChange(index, e.target.value)}
-          />
-          {errors[`option${index + 1}`] && <p>{errors[`option${index + 1}`]}</p>}
-        </div>
-      ))} */}
 
       <div className={styles.outerview}>
         
@@ -293,26 +302,33 @@ async function getCourseslist() {
 
       <div className={styles.outerview}>
   <label>Correct Answer:</label>
-  <select name="answer" value={formData.answer} onChange={handleInputChange}>
+
+<select name="answer" value={formData.answer} onChange={handleInputChange}>
     <option value="">--Select Correct Answer--</option>
-    {["optA", "optB", "optC", "optD"].map((opt, index) => 
-      formData[opt] && (
-        <option key={index} value={formData[opt]}>
-          {`Option ${index + 1}`}
-        </option>
-      )
+    {formData.optA && (
+      <option value="optA">{`Option A`}</option>
+    )}
+    {formData.optB && (
+      <option value="optB">{`Option B`}</option>
+    )}
+    {formData.optC && (
+      <option value="optC">{`Option C`}</option>
+    )}
+    {formData.optD && (
+      <option value="optD">{`Option D`}</option>
     )}
   </select>
   {errors.answer && <p>{errors.answer}</p>}
 </div>
-<div className={styles.outerview}>
-      <button type="submit">Submit</button>
+<div className={`${styles.outerview} flex flex-row gap-6 `}>
+      <button className="min-w-36 bg-red-500 text-white rounded-md" type="reset" onClick={()=>handleReset()}>Reset</button>
+      <button className="min-w-36 " type="submit">Submit</button>
 </div>
       {showDialog && showDialog && (
        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] bg-white border border-gray-300 rounded-md shadow-lg p-6 z-50">
          <h3 className="text-xl font-bold mb-4 text-green-600">Congratulations!</h3>
-         <p className="text-left text-black">Data has been added successfully</p>
+         <p className="text-left text-black">MCQ has been added successfully</p>
          <div className="mt-4 flex justify-center">
            <button
              onClick={handleCloseDialog}
@@ -333,18 +349,10 @@ async function getCourseslist() {
   );
 };
 
-// const styles2 = StyleSheet.create({
-//   div: {
-//     flex: 1,
-
-//   }
-
-// });
-
 const styles = {
  
   outerview:
-    'bg-blue-100   shadow-blue-900 pb-4 p-8 pt-0 border-r-4 border-l-4  border-blue-800  ',
+    'bg-blue-50 hover:bg-blue-100  shadow-blue-900 pb-4 p-8 pt-0 border-r-4 border-l-4  border-blue-800  ',
   heading:
   'border-b text-lg border-blue-500 p-4  font-bold text-center text-blue-800 mb-4 '
 };
