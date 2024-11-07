@@ -21,7 +21,7 @@ const printStyles = `
   }
 `;
 
-const Paper = ({ course, subject, medium, totalQuizzes, totalMarks, instruction,scroll = 'overflow-scroll' }) => {
+const Paper = ({ course, subject, medium, totalQuizzes, data, totalMarks, instruction,time,scroll = 'overflow-scroll' }) => {
   
   return (
     <div>
@@ -36,35 +36,40 @@ const Paper = ({ course, subject, medium, totalQuizzes, totalMarks, instruction,
           </div>
           <div className="flex justify-between mt-1">
             <h3 className="text-lg font-semibold">Total Quizzes: {totalQuizzes}</h3>
+            <h3 className="text-lg font-semibold">Total Time: {`${time.hrs} hrs ${time.min} min`}</h3>
             <h3 className="text-lg font-semibold">Total Marks: {totalMarks}</h3>
           </div>
         </div>
         <p className="text-gray-700 mb-6 text-xs border border-black rounded-md p-2">{instruction}</p>
-        <div className={`space-y-6 h-96 ${scroll}`}>
-          {[...Array(totalQuizzes)].map((_, idx) => (
+        {/* ${scroll} */}
+        
+       
+        <div className={`space-y-6`}> 
+          { data && data.map((item, idx) => (
             <div key={idx} className="border-b pb-4 mb-4 ">
-              <p className="font-medium bg-slate-100 p-1 w-fit rounded-md ">Q{idx + 1}:-   <span className='pl-2'>  Which of the following is the brain of the computer?</span></p>
+              <p className="font-medium bg-slate-100 p-1 w-fit rounded-md ">Q{idx + 1}:-   <span className='pl-2'>{item.question}</span></p>
               <div className="grid grid-cols-2 gap-4 ml-20 p-2">
                 <label className="flex items-center text-sm">
-                  <input type="radio" name={`q${idx}`} className="mr-2" />
-                 A <span>Central Processing Unit</span>
+                  <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
+                 <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>A</span> <span className='ml-2'>{item.optA}</span>
                 </label>
                 <label className="flex items-center text-sm">
-                  <input type="radio" name={`q${idx}`} className="mr-2" />
-                  B <span>Memory</span>
+                  <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
+                  <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>B</span> <span className='ml-2'>{item.optB}</span>
                 </label>
                 <label className="flex items-center text-sm">
-                  <input type="radio" name={`q${idx}`} className="mr-2" />
-                  C <span> Arithmetic and Logic unit</span>
+                  <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
+                  <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>C</span> <span className='ml-2'> {item.optC}</span>
                 </label>
                 <label className="flex items-center text-sm">
-                  <input type="radio" name={`q${idx}`} className="mr-2" />
-                  D <span>Control unit</span>
+                  <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
+                  <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>D</span> <span className='ml-2'>{item.optD}</span>
                 </label>
               </div>
             </div>
           ))}
         </div>
+         
       </div>
     </div>
   );
@@ -73,12 +78,13 @@ const Paper = ({ course, subject, medium, totalQuizzes, totalMarks, instruction,
 
 
 export default Paper
-export const printReport = ({ course, subject, medium, totalQuizzes, totalMarks, instruction }) => {
+export const printReport = ({ course, subject, medium, totalQuizzes,data, totalMarks, instruction,time }) => {
   // Render the component to a static string
 
-  console.log( "print--------------",course, subject, medium, totalQuizzes, totalMarks, instruction )
+
+
   const printContent = ReactDOMServer.renderToString(
-    <Paper course={course} subject={subject} medium={medium} totalQuizzes={totalQuizzes} totalMarks={totalMarks} instruction={instruction} scroll='' />
+    <Paper course={course} subject={subject} medium={medium} totalQuizzes={totalQuizzes} data={data} totalMarks={totalMarks} instruction={instruction} time={time} scroll='' />
   );
 
   // Open a new window and write the HTML string for printing

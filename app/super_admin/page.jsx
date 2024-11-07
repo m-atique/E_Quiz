@@ -3,7 +3,7 @@ import MenubarSuperAdmin from '../super_admin/superAdminHeader'
 
 const SuperAdminHome = () => {
   return (
-    <div><MenubarSuperAdmin /></div>
+    <div>Super Admin</div>
   )
 }
 
