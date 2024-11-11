@@ -15,7 +15,7 @@ var count = 1;
    async function getQuestions() {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank`)
     // Set data and stop the loading state
-    //console.log("------------", response)
+    console.log("------------", response)
     setData(response.data);
     setLoading(false);
    }
@@ -36,20 +36,20 @@ console.log("deleted.............")
 }
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Databse MCQs</h2>
+      <h2> MCQs</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
         <thead>
           <tr style={{ backgroundColor: '#f4f4f4' }}>
-            <th style={styles.tableHeader}>Sr.No.</th>
+            <th style={styles.tableHeader}>Sr #</th>
             <th style={styles.tableHeader}>Date</th>
             <th style={styles.tableHeader}>Course ID</th>
-            <th style={styles.tableHeader}>Subject ID</th>
+            <th style={styles.tableHeader}>Subject</th>
             <th style={styles.tableHeader}>Questions</th>
             <th style={styles.tableHeader}>Option A</th>
             <th style={styles.tableHeader}>Option B</th>
             <th style={styles.tableHeader}>Option C</th>
             <th style={styles.tableHeader}>Option D</th>
-            <th style={styles.tableHeader}>Answer</th>
+            <th style={styles.tableHeader}>Correct Answer</th>
             <th style={styles.tableHeader}>Added By</th>
             <th style={styles.tableHeader}><span className=''> Action</span></th>
             
@@ -59,7 +59,7 @@ console.log("deleted.............")
           {data && data.map((item, index) => (
             <tr key={index}>
               <td style={styles.tableCell}>{`${count++}`}</td>
-              <td style={styles.tableCell}>{item.date.split("T")[0].split("-").reverse().join("-")}</td>
+              <td style={styles.tableCell}>{item.date.split(" ")[0].split("-").reverse().join("-")}</td>
               <td style={styles.tableCell}>{item.courses}</td>
               <td style={styles.tableCell}>{item.subject_name}</td>
               <td style={styles.tableCell}>{item.question}</td>

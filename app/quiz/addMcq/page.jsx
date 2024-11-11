@@ -40,7 +40,7 @@ async function getCourseslist() {
     //   lower: false,
     //   basic: false,
     // }
-    addedBy:'Ahsan PO',
+    addedBy:'null',
     date: new Date().toISOString(),
     courseid:[]
 
@@ -62,8 +62,8 @@ async function getCourseslist() {
       optC: '',
       optD: '',
       answer: "",
-      addedBy: '',
-      date: '',
+      addedBy:'null',
+      date: new Date().toISOString(),
       courseid:""
 
        });
@@ -125,8 +125,7 @@ async function getCourseslist() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-//console.log("Form submitted successfully:", formData);
-      // Form submission logic here
+
 
   const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank`,formData)
   //console.log("api response----------------", response)
