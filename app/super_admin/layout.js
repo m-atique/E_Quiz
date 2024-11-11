@@ -12,7 +12,7 @@ import {
   mukta,
   laBelle,
 } from "@/lib/fonts";
-import {MenubarSA} from './superAdminHeader'
+import SuperAdminHeader from './superAdminHeader'
 
 
 
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
     >
       <body>
     
-      <MenubarSA />
+      <SuperAdminHeader />
         {children}
          
        
