@@ -22,68 +22,66 @@ import { DoorOpen } from "lucide-react";
 import { MdExitToApp } from "react-icons/md";
 import { Modal } from "@/components/ui/alert";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
-  
+import { signOut,useSession } from "next-auth/react";
+import { Heading } from "../super_admin/superAdminHeader";
   export function MenubarUser() {
     const [showmodal,setshowModal] = useState(false)
-    return (
-      <div className="flex w-full flex-row items-center justify-between p-5 bg-qblue">
-
-
-
- <div className='text-qwhite w-2/5  flex items-center   text-4xl font-sans font-semibold uppercase '>
-    {/* <Link href={'/admin'} className="    bg-cover   w-10 h-12 mr-5 drop-shadow drop " /> */}
-     e_Quiz Repository
-    </div>
+    const {data} = useSession()
   
-
-   
-      <Menubar className='menubar' >
-     
-      
-        <Link href={'/user/addMcq'}>
-        <MenubarMenu >
-          <MenubarTrigger className='menubarItems'>
-           ADD QUIZ
-            </MenubarTrigger>
-          
-        </MenubarMenu>
-        </Link>
-
-        <Link href={'/user/viewMcq'}>
-        <MenubarMenu >
-          <MenubarTrigger className='menubarItems'>
-           View Quiz
-            </MenubarTrigger>
-          
-        </MenubarMenu>
-        </Link>
-       
-       <MenubarMenu>
+  
     
-    <MenubarTrigger>
-    <button className="flex items-center space-x-1 text-purple-500" onClick={()=>{
-                setshowModal(true)
-              }}>
-                <MdExitToApp size={25} />
-                <span>Logout</span>
-              </button>
-    </MenubarTrigger>
-  </MenubarMenu>
-      </Menubar>
-
-    {/* modal added by ateeq */}
-    <Modal  open={showmodal} 
-        onClose={() => {setshowModal(false)}}
-        title='Log Out'
-        detail='Are you sure to Log out'
-        onOk={() => {signOut();setshowModal(false)}}
-        ok="Yes"
-        cancel="cancel"
-        type ='signout'
-        />
-      </div>
-    )
-  }
+    return (
+      <div className="flex w-full items-center justify-between pl-5 py-3 h-20 bg-[#132066]">
+        <Heading  pathname='/user'/>
   
+        {/* Align Menubar to the right */}
+        <Menubar className="menubar  shadow-none bg-transparent outline-none border-none ml-auto  p-0">
+  
+       
+          <MenubarMenu  >
+            <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+              <Link href={'/user/addMcq'}>
+                <div className="flex items-center space-x-1 text-qfocus ">
+                 
+                  <span>Add MCQs</span>
+                </div>
+              </Link>
+            </MenubarTrigger>
+          </MenubarMenu>
+  
+          <MenubarMenu  >
+          <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+              <Link href={'/user/addMcq'}>
+                <div className="flex items-center space-x-1 text-qfocus h">
+                 
+                  <span>View Quiz</span>
+                </div>
+              </Link>
+            </MenubarTrigger>
+          </MenubarMenu>
+          <MenubarMenu>
+      
+      <MenubarTrigger className="  bg-qfocus h-10 rounded-l-full " onClick={()=>{
+                  setshowModal(true)
+                }}>
+      <div className="flex items-center space-x-2  rounded-l-full p-1 px-3 text-[#132066] hover:text-indigo-800 hover:scale-110" >
+                  <span className="">{data?.user?.role}</span>
+                  <MdExitToApp size={20}  />
+                </div>
+      </MenubarTrigger>
+    </MenubarMenu>
+  
+        </Menubar>
+        <Modal  open={showmodal} 
+          onClose={() => {setshowModal(false)}}
+          title='Log Out'
+          detail='Are you sure to Log out'
+          onOk={() => {signOut(); setshowModal(false)}}
+          ok="Yes"
+          cancel="cancel"
+          type ='signout'
+          />
+      </div>
+    );
+  }
   
