@@ -1,5 +1,5 @@
 "use client";
-
+import '../../globals.css'
 import { useState } from "react";
 import axios from 'axios';
 import { useRouter } from 'next/navigation'; 
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { getSession, signIn } from "next-auth/react"
+import {Modal} from '@/components/ui/alert'
 
 // Loader component
 function Loader({ text }: { readonly text: string }) {
@@ -73,6 +75,16 @@ export default function SigninForm() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  
+  const [alertInfo,setAlertInfo] =useState({
+    open: false,
+    title: "",
+    detail: "",
+    cancel: "",
+    ok: "OK",
+    type: "success",
+  }
+)
 
   const validateForm = () => {
     const newErrors = { uname: "", password: "", general: "" };
@@ -97,22 +109,55 @@ export default function SigninForm() {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+  
     if (validateForm()) {
       setLoading(true);
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/user/login`, formData);
-        if (response.data.token && response.data.utype) {
-          console.log("Authentication successful:", response.data);
-          Cookies.set('authToken', response.data.token, { expires: 1, sameSite: 'Strict'});
+        const response = await   signIn('credentials', {
+          username: formData.uname,
+          password: formData.password,
+          redirect: false, 
+          callbackUrl :'/'
+        });
+      
+
+        
+        if(response?.status == 200){
+
+       
+          const nx_session = await getSession()
+
+        
+        if (nx_session?.user?.token && nx_session?.user?.role) {
+          // console.log("Authentication successful:", response.data);
+          Cookies.set('authToken', nx_session?.user?.token, { expires: 1, sameSite: 'Strict'});
           Cookies.set('lastActivity', new Date().getTime().toString());
-          Cookies.set('usertype', response.data.utype, { expires: 1, sameSite: 'Strict'});
-          router.push("../auth/signup");
+          Cookies.set('usertype', nx_session?.user?.role, { expires: 1, sameSite: 'Strict'});
+console.log(response?.user)
+          if(nx_session?.user?.role == 'admin'){
+            router.push("/admin");
+          }
+          else if(nx_session?.user?.role == 'user'){
+            router.push("/user");
+          } else if(nx_session?.user?.role == 'superadmin'){
+            router.push("/super_admin");
+          }
+         
         } else {
-          console.error("Authentication failed:", response.data);
+          // console.error("Authentication failed:", response.data);
           setModalMessage("Authentication failed. Please check your credentials.");
           setShowModal(true);
         }
-  
+      }else{
+        setAlertInfo({
+          ...alertInfo,
+          open: true,
+          title: "Login Error",
+          detail: response?.error,
+          type: "failed",
+        });
+      }
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const serverMessage = error.response?.data?.message || "Authentication failed.";
@@ -144,9 +189,9 @@ export default function SigninForm() {
 
   return (
     <div 
-    className="flex flex-col min-h-screen bg-cover bg-center"
+    className="flex flex-col min-h-screen bg-cover bg-gradient-to-bl  from-slate-500 to-slate-300  bg-opacity-10 bg-repeat-y "
   >
-      <div className="flex-1 flex items-center justify-left px-36"
+      <div className="flex-1 flex items-center justify-left px-36  "
           style={{ backgroundImage: "url('/to.jpg')",
                   backgroundSize: 'cover',      
                   backgroundRepeat: 'no-repeat',        // Prevents the image from repeating
@@ -155,8 +200,10 @@ export default function SigninForm() {
                   width: '100vw', 
           }} 
       >
+
+        <h1 className='font-extrabold text-3xl capitalize w-full  bg-gradient-to-bl bg-clip-text text-transparent  from-indigo-900 to-slate-900 drop-shadow-xl'>  e-Quiz Repository  </h1>
         <form onSubmit={handleSubmit}>
-        <Card className="w-[500px] items-center justify-center">
+        <Card className="w-[500px] items-center justify-center drop-shadow-2xl bg-slate-300">
         <CardHeader className="space-y-1 ">
               <CardTitle className="text-3xl font-bold ">Sign In</CardTitle>
               <CardDescription className="text-black ">
@@ -217,15 +264,24 @@ export default function SigninForm() {
       </footer>
 
       {/* Modal for authentication errors */}
-      {showModal && (
+      {/* {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded shadow-lg">
+          <div className="bg-white p-5 rounded shadow-lg w-96">
             <h2 className="text-lg font-bold">Error</h2>
             <p>{modalMessage}</p>
             <Button onClick={handleModalClose}>Close</Button>
           </div>
         </div>
-      )}
+      )} */}
+
+      <Modal  open={alertInfo.open}
+        onClose={() => setAlertInfo({ ...alertInfo, open: false })}
+        title={alertInfo.title}
+        detail={alertInfo.detail}
+        cancel={alertInfo.cancel}
+        ok={alertInfo.ok}
+        type ={alertInfo.type}
+        />
     </div>
   );
 }

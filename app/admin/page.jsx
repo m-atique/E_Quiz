@@ -1,9 +1,9 @@
 import React from 'react'
-import MenubarAdmin from '../admin/adminHeader'
+
 
 const AdminHome = () => {
   return (
-    <div><MenubarAdmin /></div>
+    <div className='flex items-center justify-center text-4xl font-bold h-screen'>Admin home</div>
   )
 }
 

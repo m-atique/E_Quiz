@@ -6,6 +6,7 @@ import { useCourses } from "@/context_store/coursesContext";
 import { useSubjects } from "@/context_store/subjectContext";
 import axios from "axios";
 import quiz from '../../../public/quiz.jpg'
+import { formvalidator } from "../../../lib/handlers";
 
 const Equiz = () => {
   const [course, setCourse] = useState(null);
@@ -26,6 +27,14 @@ const Equiz = () => {
   
 
 const paperRef = useRef(null)
+const courseRef = useRef(null)
+const subjectRef = useRef(null)
+
+
+
+
+
+
   const coursesCatalog = useCourses();
   const subjectCatalog = useSubjects();
 
@@ -69,12 +78,11 @@ const paperRef = useRef(null)
     setTotalQuizzes(0);
     setTotalMarks(0);
     setInstruction("");
+    setTotalTime({hrs:0,min:0})
   };
 
   const handleSaveForm = async () => {
-    if(!course){
-
-    }
+  //  formvalidator(courseRef,subjectRef)
 
 
 try{
@@ -127,12 +135,13 @@ useEffect(()=>{
         {/* Form Section */}
         <div className="w-full md:w-11/2 bg-white border border-slate-400 border-t-0 shadow-xl rounded-b-lg p-8">
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" >
             <div>
-              <label className="block text-stone-900 font-medium mb-1">
+              <label    className="block text-stone-900 font-medium mb-1">
                 Course
               </label>
               <Select
+                ref={courseRef}
                 options={courseOptions}
                 value={course}
                 onChange={setCourse}
@@ -141,10 +150,11 @@ useEffect(()=>{
               />
             </div>
             <div>
-              <label className="block text-stone-900 font-medium mb-1">
+              <label   className="block text-stone-900 font-medium mb-1">
                 Subject
               </label>
               <Select
+             ref={subjectRef}
                 options={subjectOptions}
                 value={subject}
                 onChange={setSubject}
@@ -262,7 +272,7 @@ useEffect(()=>{
                 type="number"
                 readOnly
                 value={totalQuizzes}
-                className=" w-full p-3 border rounded-md  font-extabold font-mukta text-blue-900 text-xl bg-gray-100 focus:outline-none"
+                className=" w-full p-3  rounded-md  font-extabold font-mukta text-blue-900 text-2xl bg-gray-100 focus:outline-none"
               />
             </div>
 
@@ -275,7 +285,7 @@ useEffect(()=>{
                 type="number"
                 readOnly
                 value={totalMarks}
-                className="w-full p-3 border rounded-md font-extabold font-mukta text-blue-900 text-xl bg-gray-100  focus:outline-none"
+                className="w-full p-3  rounded-md font-extabold font-mukta text-blue-900 text-2xl bg-gray-100  focus:outline-none"
               />
             </div>
 

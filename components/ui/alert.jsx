@@ -10,7 +10,7 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export function SpAlert({ open, onClose, title, detail ,cancel, ok,type ='success' }) {
+export function Modal({ open, onClose, title, detail ,cancel,  ok,onOk ,type ='success' }) {
     return (
         <AlertDialog open={open} onOpenChange={onClose}>
             <AlertDialogContent>
@@ -20,7 +20,9 @@ export function SpAlert({ open, onClose, title, detail ,cancel, ok,type ='succes
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     {/* <AlertDialogCancel onClick={onClose}>{cancel}</AlertDialogCancel> */}
-                    <AlertDialogAction className={`${type === "success" ? 'bg-qblue' : 'bg-spred'} w-1/5`} onClick={onClose}>{ok}</AlertDialogAction>
+                  
+{cancel && <AlertDialogCancel className={`${type === "success" ? 'bg-qblue' : 'bg-spred'} w-1/5`}>{cancel}</AlertDialogCancel>}
+<AlertDialogAction className={`${type === "success" ? 'bg-qblue' : 'bg-spred'} w-1/5`} onClick={onOk||onClose}>{ok}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

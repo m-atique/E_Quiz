@@ -1,3 +1,4 @@
+'use client'
 import {
   Menubar,
   MenubarTrigger,
@@ -5,8 +6,13 @@ import {
 } from "@/components/ui/menubar";
 import Link from "next/link";
 import { MdExitToApp, MdLogin, MdAppRegistration, MdPassword } from "react-icons/md";
+import { signOut } from "next-auth/react";
+import { useState } from "react";
+import { Modal } from "@/components/ui/alert";
 
-export default function AdminHome() {
+
+export default function MenubarAdmin() {
+  const [showmodal,setshowModal] = useState(false)
   return (
     <div className="flex w-full items-center justify-between p-2 bg-qblue">
       <div className="text-qwhite text-4xl font-sans font-semibold uppercase">
@@ -52,18 +58,30 @@ export default function AdminHome() {
           </MenubarTrigger>
         </MenubarMenu>
 
-        {/* Sign Out Menu Item */}
+        {/* Sign Out Menu Item updated by ateeq*/}
         <MenubarMenu>
           <MenubarTrigger>
-            <Link href={'/auth/signin'}>
-              <div className="flex items-center space-x-1 text-purple-500">
+            
+              <button className="flex items-center space-x-1 text-purple-500" onClick={()=>{
+                setshowModal(true)
+              }}>
                 <MdExitToApp size={25} />
                 <span>Logout</span>
-              </div>
-            </Link>
+              </button>
+          
           </MenubarTrigger>
         </MenubarMenu>
       </Menubar>
+{/* modal added by ateeq */}
+<Modal  open={showmodal} 
+        onClose={() => {setshowModal(false)}}
+        title='Log Out'
+        detail='Are you sure to Log out'
+        onOk={() => {setshowModal(false);signOut()}}
+        ok="Yes"
+        cancel="cancel"
+        type ='signout'
+        />
     </div>
   );
 }

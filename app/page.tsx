@@ -7,10 +7,10 @@ export default function Home() {
       className="p-0 m-0 bg-[url('/bg.jpg')] bg-cover h-screen bg-zinc-200 bg-blend-overlay font-semibold font-roboto"
       style={{ backgroundSize: "100% 140%" }}
     >
-      {/* Fixed Top Navigation */}
+      {/* Fixed Top Navigation
       <div className="absolute top-0 w-full">
         <AdminHome />
-      </div>
+      </div> */}
 
       {/* Centered Content */}
       <div className="flex items-center justify-center h-full">

@@ -1,3 +1,4 @@
+'use client'
 import {
     Menubar,
     MenubarCheckboxItem,
@@ -19,8 +20,12 @@ import {
 import { BiExit, BiExitFullscreen } from "react-icons/bi";
 import { DoorOpen } from "lucide-react";
 import { MdExitToApp } from "react-icons/md";
+import { Modal } from "@/components/ui/alert";
+import { useState } from "react";
+import { signOut } from "next-auth/react";
   
   export function MenubarUser() {
+    const [showmodal,setshowModal] = useState(false)
     return (
       <div className="flex w-full flex-row items-center justify-between p-5 bg-qblue">
 
@@ -28,7 +33,7 @@ import { MdExitToApp } from "react-icons/md";
 
  <div className='text-qwhite w-2/5  flex items-center   text-4xl font-sans font-semibold uppercase '>
     {/* <Link href={'/admin'} className="    bg-cover   w-10 h-12 mr-5 drop-shadow drop " /> */}
-     e_Quiz Respository
+     e_Quiz Repository
     </div>
   
 
@@ -36,26 +41,47 @@ import { MdExitToApp } from "react-icons/md";
       <Menubar className='menubar' >
      
       
+        <Link href={'/user/addMcq'}>
         <MenubarMenu >
           <MenubarTrigger className='menubarItems'>
-        <Link href={'/user/quiz'}>
            ADD QUIZ
-        </Link>
             </MenubarTrigger>
           
         </MenubarMenu>
+        </Link>
+
+        <Link href={'/user/viewMcq'}>
+        <MenubarMenu >
+          <MenubarTrigger className='menubarItems'>
+           View Quiz
+            </MenubarTrigger>
+          
+        </MenubarMenu>
+        </Link>
        
        <MenubarMenu>
     
     <MenubarTrigger>
-      <Link href={'/auth/signout'}>
-    <MdExitToApp size ={30} color={"purple"} title="Logout" className=''/>
-      </Link>
+    <button className="flex items-center space-x-1 text-purple-500" onClick={()=>{
+                setshowModal(true)
+              }}>
+                <MdExitToApp size={25} />
+                <span>Logout</span>
+              </button>
     </MenubarTrigger>
   </MenubarMenu>
       </Menubar>
 
-    
+    {/* modal added by ateeq */}
+    <Modal  open={showmodal} 
+        onClose={() => {setshowModal(false)}}
+        title='Log Out'
+        detail='Are you sure to Log out'
+        onOk={() => {signOut();setshowModal(false)}}
+        ok="Yes"
+        cancel="cancel"
+        type ='signout'
+        />
       </div>
     )
   }
