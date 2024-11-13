@@ -1,57 +1,65 @@
+
 'use client'
+import { Modal } from "@/components/ui/alert";
 import {
   Menubar,
   MenubarTrigger,
   MenubarMenu,
 } from "@/components/ui/menubar";
 import Link from "next/link";
-import { MdExitToApp, MdLogin, MdAppRegistration, MdPassword } from "react-icons/md";
-import { signOut,useSession } from "next-auth/react";
 import { useState } from "react";
-import { Modal } from "@/components/ui/alert";
-import { BiSolidUser, BiSolidUserPlus } from "react-icons/bi";
-import { Heading } from "../super_admin/superAdminHeader";
+import { MdExitToApp, MdLogin, MdAppRegistration, MdPassword } from "react-icons/md";
+import {  signOut, useSession } from "next-auth/react";
 
 
-export default function MenubarAdmin() {
+
+export const Heading= ({ pathname }) => {
+  return (
+    <div className="text-3xl font-sans text-qfocus font-semibold uppercase flex flex-row gap-3 items-center justify-start">
+      <Link href={pathname} className="bg-[url('/logo.png')] w-8 h-8 bg-cover">
+        {/* This div acts as a logo icon */}
+      </Link>
+      <span className=" lowercase font-mutka text-4xl -rotate-[25deg] ">e</span>
+      <span>Quiz Repository</span>
+    </div>
+  );
+};
+
+export default function SuperAdminHeader() {
   const [showmodal,setshowModal] = useState(false)
-
   const {data} = useSession()
 
 
   
   return (
     <div className="flex w-full items-center justify-between pl-5 py-3 h-20 bg-[#132066]">
-     <Heading pathname ='/admin'/>
+      <Heading pathname ='/super_admin'/>
 
       {/* Align Menubar to the right */}
       <Menubar className="menubar  shadow-none bg-transparent outline-none border-none ml-auto  p-0">
 
      
         <MenubarMenu  >
-          <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-2 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
-            <Link href={'/admin/signup'}>
-            <div className="flex items-center space-x-1 text-qfocus ">
-            <BiSolidUser size={25} />
-                <span>Create User</span>
+          <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+            <Link href={'/super_admin/epaper'}>
+              <div className="flex items-center space-x-1 text-qfocus ">
+               
+                <span>Quiz Maker</span>
               </div>
             </Link>
           </MenubarTrigger>
         </MenubarMenu>
 
-        {/* Change Password Menu Item */}
-        <MenubarMenu>
+        <MenubarMenu  >
         <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
-            <Link href={'/admin/changePassword'}>
-            <div className="flex items-center space-x-1 text-qfocus ">
-                <MdPassword size={25} />
-                <span>Change Password</span>
+            <Link href={'/super_admin/create_user'}>
+              <div className="flex items-center space-x-1 text-qfocus h">
+               
+                <span>Registration</span>
               </div>
             </Link>
           </MenubarTrigger>
         </MenubarMenu>
-
-        {/* Sign Out Menu Item updated by ateeq*/}
         <MenubarMenu>
     
     <MenubarTrigger className="  bg-qfocus h-10 rounded-l-full  " onClick={()=>{
@@ -63,13 +71,13 @@ export default function MenubarAdmin() {
               </div>
     </MenubarTrigger>
   </MenubarMenu>
+
       </Menubar>
-{/* modal added by ateeq */}
-<Modal  open={showmodal} 
+      <Modal  open={showmodal} 
         onClose={() => {setshowModal(false)}}
         title='Log Out'
         detail='Are you sure to Log out'
-        onOk={() => {setshowModal(false);signOut()}}
+        onOk={() => {signOut(); setshowModal(false)}}
         ok="Yes"
         cancel="cancel"
         type ='signout'
@@ -77,4 +85,3 @@ export default function MenubarAdmin() {
     </div>
   );
 }
-
