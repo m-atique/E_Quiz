@@ -1,11 +1,16 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 const DataTable = () => {
+
+  const { data: sessionData } = useSession();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-var count = 1;
+
+  //console.log("------------------",  sessionData.user.role)
+var count =1, serial = 1;
 
   useEffect(() => {
     getQuestions()
@@ -15,7 +20,7 @@ var count = 1;
    async function getQuestions() {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank`)
     // Set data and stop the loading state
-    console.log("------------", response)
+    //console.log("------------", response)
     setData(response.data);
     setLoading(false);
    }
@@ -26,55 +31,72 @@ var count = 1;
   }
   
 async function deleteQuestion(id) {
-    console.log("-----------", id)
+   // console.log("-----------", id)
     const response = await axios.delete(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank/${id}`)
     // Set data and stop the loading state
-    console.log("------------", response)
+    //console.log("------------", response)
     //setData(response.data);
    // setLoading(false);
-console.log("deleted.............")
+alert("deleted.............")
 }
   return (
     <div style={{ padding: '20px' }}>
       <h2> MCQs</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+      <div className='flex min-w-full overflow-x-scroll overflow-auto  p-2 '>
+
+      
+      <table className='min-w-[900px] bg-gray-50'>
         <thead>
           <tr style={{ backgroundColor: '#f4f4f4' }}>
-            <th style={styles.tableHeader}>Sr #</th>
-            <th style={styles.tableHeader}>Date</th>
-            <th style={styles.tableHeader}>Course ID</th>
-            <th style={styles.tableHeader}>Subject</th>
-            <th style={styles.tableHeader}>Questions</th>
-            <th style={styles.tableHeader}>Option A</th>
-            <th style={styles.tableHeader}>Option B</th>
-            <th style={styles.tableHeader}>Option C</th>
-            <th style={styles.tableHeader}>Option D</th>
-            <th style={styles.tableHeader}>Correct Answer</th>
-            <th style={styles.tableHeader}>Added By</th>
-            <th style={styles.tableHeader}><span className=''> Action</span></th>
+            <th style={styles.tableHeader} className='w-28'>Sr #</th>
+            <th style={styles.tableHeader} className='w-28'>Date</th>
+            <th style={styles.tableHeader} className='w-96'>Course</th>
+            
+            <th style={styles.tableHeader} className='w-96'>Questions</th>
+            <th style={styles.tableHeader} className='w-96'>Answers</th>
+            <th style={styles.tableHeader} className='w-60'>Added By</th>
+            <th style={styles.tableHeader} className='w-32'><span className=''> Action</span></th>
             
           </tr>
         </thead>
         <tbody>
           {data && data.map((item, index) => (
             <tr key={index}>
-              <td style={styles.tableCell}>{`${count++}`}</td>
-              <td style={styles.tableCell}>{item.date.split(" ")[0].split("-").reverse().join("-")}</td>
-              <td style={styles.tableCell}>{item.courses}</td>
-              <td style={styles.tableCell}>{item.subject_name}</td>
-              <td style={styles.tableCell}>{item.question}</td>
-              <td style={styles.tableCell}>{item.optA}</td>
-              <td style={styles.tableCell}>{item.optB}</td>
-              <td style={styles.tableCell}>{item.optC}</td>
-              <td style={styles.tableCell}>{item.optD}</td>
-              <td style={styles.tableCell}>{item.answer}</td>
-              <td style={styles.tableCell}>{item.addedBy}</td>
-              <td style={styles.tableCell}><span className='text-red-500  text-sm hover:cursor-pointer' onClick={()=>deleteQuestion(item.id)}> Delete</span> </td>
+              <td style={styles.tableCell} className='w-28'>{`${count++}`}</td>
+              <td style={styles.tableCell} className='w-28'>{item.date.split(" ")[0].split("-").reverse().join("-")}</td>
+              <td style={styles.tableCell} className='w-96'>
+              <span> <b>Subject :</b></span> {item.subject_name} <span> <br/><br/></span>
+              {item.courses.map((course, i) => (
+    <React.Fragment key={i}>
+      {`${serial++}`}.  {course}
+      {i < item.courses.length - 1 && <br />}
+    </React.Fragment>
+  ))
+  
+  }
+    {`${serial =1}`}            
+              </td>
+             
+              <td style={styles.tableCell} className='w-96'>{item.question}</td>
+              <td style={styles.tableCell} className='w-96'>
+               <span className='border-b border-gray-300'> <b> A: </b> {item.optA} <br/></span>
+               <span className='border-b border-gray-300'> <b> B: </b> {item.optB} <br/></span>
+               <span className='border-b border-gray-300'> <b> C: </b> {item.optC} <br/></span>
+               <span className='border-b border-gray-300'> <b> D: </b> {item.optD} </span>
+               <br/><br/>
+                <b>Correct Answer: </b>{item.answer}<br/>
+
+              </td>
+             
+              
+              <td style={styles.tableCell} className='w-60'>{item.addedBy}</td>
+              <td style={styles.tableCell} className='w-32'><span className='text-red-500  text-sm hover:cursor-pointer' onClick={()=>deleteQuestion(item.id)}> Delete</span> </td>
               
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };
