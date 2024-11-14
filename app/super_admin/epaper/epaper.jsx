@@ -29,18 +29,28 @@ const Paper = ({ course, subject, medium, totalQuizzes, data, totalMarks, instru
       <div className="w-full">
         {/* <h2 className="text-2xl font-semibold text-gray-800 mb-4">Quiz Paper Preview</h2> */}
         <div className="border-b pb-4 mb-4">
-          <h6 className="text-3xl font-bold w-full text-center mb-5 text-blue-700">{subject ? subject.label : "N/A"}</h6>
+          <div className='flex flex-col items-center justify-center'>
+            <div className="bg-[url('/logo.png')] w-20 h-20 bg-cover mb-6"></div>
+            <h3 className="text-lg font-semibold  capitalize text-center border-b-2 border-dotted border-spacing-16 border-black mb-5">NHMP Training College Sheikhupura</h3>
+          <h3 className="text-lg font-semibold text-center "> {course ? course.label : "N/A"}</h3>
+          <h6 className="text-xl font-bold w-fit text-center bg-slate-200  border rounded-lg px-3 py-1  text-black mb-10">{subject ? subject.label : "N/A"}</h6>
+          </div>
+          
           <div className="flex justify-between mt-1">
-            <h3 className="text-lg font-semibold">Course: {course ? course.label : "N/A"}</h3>
-            <h3 className="text-lg font-semibold">Medium: {medium ? medium.label : "N/A"}</h3>
+            {/* <h3 className="text-lg font-semibold  ">Course: {course ? course.label : "N/A"}</h3>
+          <h3 className="text-lg font-semibold  ">Subject:{subject ? subject.label : "N/A"}</h3> */}
           </div>
           <div className="flex justify-between mt-1">
             <h3 className="text-lg font-semibold">Total Quizzes: {totalQuizzes}</h3>
-            <h3 className="text-lg font-semibold">Total Time: {`${time.hrs} hrs ${time.min} min`}</h3>
+            <h3 className="text-lg font-semibold">Total Time: {`${ time.hrs} hrs ${time.min} min`}</h3>
             <h3 className="text-lg font-semibold">Total Marks: {totalMarks}</h3>
           </div>
         </div>
-        <p className="text-gray-700 mb-6 text-xs border border-black rounded-md p-2">{instruction}</p>
+        <div className="text-gray-700 mb-6 text-sm border border-black rounded-md p-2">
+        {instruction.split(".").map(item=>(
+          <p className="text-gray-700 mb-1  rounded-md p-2 block">{item}.</p>
+        ))}
+         </div>
         {/* ${scroll} */}
         
        
@@ -61,9 +71,9 @@ const Paper = ({ course, subject, medium, totalQuizzes, data, totalMarks, instru
                   <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
                   <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>C</span> <span className='ml-2'> {item.optC}</span>
                 </label>
-                <label className="flex items-center text-sm">
+                <label className="flex items-center text-sm ">
                   <input type="text" name={`q${idx}`} className="mr-2 w-0  " />
-                  <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>D</span> <span className='ml-2'>{item.optD}</span>
+                  <span className='border p-1 rounded-full w-5 h-5 flex items-center justify-center border-black  font-extrabold  '>D</span> <span className='ml-2 '>{item.optD}</span>
                 </label>
               </div>
             </div>
@@ -84,7 +94,7 @@ export const printReport = ({ course, subject, medium, totalQuizzes,data, totalM
 
 
   const printContent = ReactDOMServer.renderToString(
-    <Paper course={course} subject={subject} medium={medium} totalQuizzes={totalQuizzes} data={data} totalMarks={totalMarks} instruction={instruction} time={time} scroll='' />
+    <Paper course={course} subject={subject} medium={medium} totalQuizzes={totalQuizzes} data={data} totalMarks={totalMarks} instruction={instruction} time={time.totalTime} scroll='' />
   );
 
   // Open a new window and write the HTML string for printing

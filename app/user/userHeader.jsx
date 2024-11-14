@@ -51,7 +51,7 @@ import { Heading } from "../super_admin/superAdminHeader";
   
           <MenubarMenu  >
           <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
-              <Link href={'/user/addMcq'}>
+              <Link href={'/user/viewMcq'}>
                 <div className="flex items-center space-x-1 text-qfocus h">
                  
                   <span>View Quiz</span>
