@@ -53,8 +53,8 @@ async function getCourseslist() {
   const handleReset = async ()=>{
 
     setFormData({  // Clear form data
-      subjectid: "",
-      medium: "",
+      subjectid: formData.subjectid,
+      medium: formData.medium,
       stage: "medium",
       question: "",
       optA: '',
