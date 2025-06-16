@@ -111,6 +111,15 @@ try{
       
   };
 
+ 
+  const [isManualChange, setIsManualChange] = useState(false);
+const totalmarks= (number)=>{
+
+      setTotalMarks(number * marks);
+      const hrs = Math.floor(number / 60);
+      const min = number % 60;
+      setTotalTime({ hrs, min });
+}
   useEffect(() => {
     const totalQuizCount = totalQuizzes;
     //console.log("Total Quizzes:", totalQuizCount);
@@ -121,7 +130,7 @@ try{
   
     // Calculate total of rounded values and find discrepancy
     const totalAssigned = roundedEasy + roundedMedium + roundedHard;
-    const discrepancy = totalQuizCount - totalAssigned;
+    const discrepancy = totalQuizzes - totalAssigned;
   
     // Adjust one of the values based on the discrepancy
     if (discrepancy === -1) {
@@ -129,21 +138,52 @@ try{
     } else if (discrepancy === 1) {
       roundedEasy += 1; // Adjust if total is under by 1
     }
+      
+      setEasy(roundedEasy);
+      setMediumQuiz(roundedMedium);
+      setHard(roundedHard);
   
-    // Update states with adjusted values
-    setEasy(roundedEasy);
-    setMediumQuiz(roundedMedium);
-    setHard(roundedHard);
-    
-    // Set total marks
-    setTotalMarks(totalQuizCount * marks);
-    const hrs = Math.floor(totalQuizCount / 60);
-    const min = totalQuizCount % 60;
+      // Set total marks and time based on totalQuizzes
+      // setTotalMarks(totalQuizzes * marks);
+      // const hrs = Math.floor(totalQuizzes / 60);
+      // const min = totalQuizzes % 60;
+      // setTotalTime({ hrs, min });
+      totalmarks(totalQuizzes)
+    } else {
+      setIsManualChange(false); // Reset manual change flag
+    }
+  }, [totalQuizzes]);
   
-    setTotalTime({ hrs, min });
-    
-  }, [marks, totalQuizzes]);
+  useEffect(() => {
+    // Update `totalQuizzes` based on manual changes in easy, mediumQuiz, or hard
+    const newTotalQuiz = easy + mediumQuiz + hard;
   
+    // Only update if the difference is significant to avoid minor rounding issues
+    if (Math.abs(totalQuizzes - newTotalQuiz) != 0) {
+   
+      setIsManualChange(true); // Flag a manual change to avoid distribution recalculation
+     
+      setTotalQuizzes(parseInt(newTotalQuiz)); // Update `totalQuizzes` with the new total
+
+      totalmarks(newTotalQuiz)
+      
+    }
+  }, [easy, mediumQuiz, hard]);
+
+//---------------------select marks 
+
+useEffect(()=>{
+  // setTotalMarks(totalQuizzes * marks);
+  // const hrs = Math.floor(totalQuizzes / 60);
+  // const min = totalQuizzes % 60;
+  // setTotalTime({ hrs, min });
+  totalmarks(totalQuizzes)
+},[marks])
+
+
+  
+ 
+
 
   return (
     <div className="p-12 bg-gray-100 min-h-screen  flex items-start justify-center">
@@ -215,6 +255,7 @@ try{
               <input
                 type="number"
                 min="0"
+                value={totalQuizzes}
                 onChange={(e) => setTotalQuizzes(parseInt(e.target.value, 10) || 0)}
                 className="w-full p-3 border border-slate-400 rounded-md relative"
               />
