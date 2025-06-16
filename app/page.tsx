@@ -15,7 +15,7 @@ export default function Home() {
       {/* Centered Content */}
       <div className="flex items-center justify-center h-full">
         <div className='text-6xl font-bold font-roboto_mono'>
-          e_Quiz Repository
+          e_Examination System
         </div>
       </div>
     </main>

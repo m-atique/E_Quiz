@@ -9,6 +9,7 @@ import quiz from '../../../public/quiz.jpg'
 import { formvalidator } from "../../../lib/handlers";
 
 const Equiz = () => {
+  
   const [course, setCourse] = useState(null);
   const [subject, setSubject] = useState(null);
   const [medium, setMedium] = useState(null);
@@ -17,7 +18,7 @@ const Equiz = () => {
   const [hard, setHard] = useState(0);
   const [marks, setMarks] = useState(1);
   const [instruction, setInstruction] = useState(
-    " Please read the questions carefully and complete within the time.\n Each question carries equal marks.\n Selecting more than one correct options results in cancelation of question"
+    " Please use only Lead pencil while filling Bubbles on Answer Sheet.\n Each question carries equal marks.\n Selecting more than one correct options results in cancelation of question Make Sure Bubble is completely filled. \n Please read the questions carefully and complete within the time.\n Each question carries equal marks.\n Selecting more than one correct options results in cancelation of question \n Do not temper or scratch OMR Sheet.\n"
   );
   const [totalQuizzes, setTotalQuizzes] = useState(0);
   const [totalMarks, setTotalMarks] = useState(0);
@@ -86,8 +87,7 @@ const subjectRef = useRef(null)
 
 
 try{
-   
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizzes/random-questions`,
+           const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizzes/random-questions`,
             {
                 courseid: course.value,
                 subjectid:  subject.value,
@@ -100,7 +100,7 @@ try{
             }
 
         )
-    
+    console.log("Response Data:", response.data);
         setQuizData(response.data); // Set quiz data first
 
         setShowPaper('block'); // Only show div after setting data
@@ -113,7 +113,7 @@ try{
 
   useEffect(() => {
     const totalQuizCount = totalQuizzes;
-    
+    //console.log("Total Quizzes:", totalQuizCount);
     // Calculate initial rounded values
     let roundedEasy = Math.round(totalQuizCount * 50 / 100);
     let roundedMedium = Math.round(totalQuizCount * 30 / 100);
@@ -155,7 +155,7 @@ try{
       <div className={`w-full md:w-11/12 h-[120px] rounded-t-lg  border border-slate-400 border-b-0 flex items-center pl-10 bg-gradient-to-tl from-gray-500 to-zinc-100 drop-shadow-lg relative ${showPaper == 'block'?'hidden':'block'}`} >
 
 <img src="/qzmaker2.png" alt="img"  width={274} className=" absolute right-0 -top-16"/>
-      <h1 className=" font-[900] text-5xl font-marcellus text-transparent bg-gradient-to-tr from-blue-900  to-black bg-clip-text ">Quiz Maker</h1>
+      <h1 className=" font-[900] text-5xl font-marcellus text-transparent bg-gradient-to-tr from-blue-900  to-black bg-clip-text ">Generate Paper</h1>
       </div>
       
         {/* Form Section */}
@@ -321,8 +321,8 @@ try{
               value={instruction}
               onChange={(e) => setInstruction(e.target.value)}
               placeholder="Enter any specific instructions for the quiz"
-              className="w-full p-3 border rounded-md"
-              rows="4"
+              className="w-full p-2 border rounded-md"
+              rows="6"
             />
           </div>
           <div className="flex gap-4 mt-6  justify-end">

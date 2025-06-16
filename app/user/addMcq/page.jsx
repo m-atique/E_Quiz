@@ -4,7 +4,16 @@ import './QuestionForm.css';
 
 import axios from "axios";
 import { Heading } from "lucide-react";
+import { useSession } from "next-auth/react";
+
 const QuestionForm = () => {
+
+  const { data: sessionData } = useSession();
+  //const { name, rank, role } = sessionData.user;
+
+  const name = sessionData?.user?.name || "";
+  const rank = sessionData?.user?.rank || "";
+
 
   useEffect(() => {
       getCourseslist()
@@ -13,6 +22,7 @@ const QuestionForm = () => {
 const [courselist, setCourseList] = useState("") 
 const [subjectlist, setSubjectList] = useState("") 
 const [showDialog, setShowDialog] = useState(false)
+const [selectAllCourses, setSelectAllCourses] = useState(false); 
 async function getCourseslist() {
  // console.log("api get response-------------------", `${process.env.NEXT_PUBLIC_ROOT_API}/api/courses`)
   const response = await axios.get(`${process.env.NEXT_PUBLIC_ROOT_API}/api/courses`)
@@ -40,7 +50,7 @@ async function getCourseslist() {
     //   lower: false,
     //   basic: false,
     // }
-    addedBy:'null',
+    addedBy:rank + " " + name,
     date: new Date().toISOString(),
     courseid:[]
 
@@ -62,7 +72,7 @@ async function getCourseslist() {
       optC: '',
       optD: '',
       answer: "",
-      addedBy:'null',
+      addedBy:rank + " " + name,
       date: new Date().toISOString(),
       courseid:""
 
@@ -121,14 +131,26 @@ async function getCourseslist() {
     setFormData({ ...formData, courseid: newOptions });
 };
 
+const handleSelectAll = () => {
+  if (selectAllCourses) {
+    // Deselect all courses
+    setFormData({ ...formData, courseid: [] });
+  } else {
+    // Select all courses
+    const allCourseIds = courselist.map(course => course.id);
+    setFormData({ ...formData, courseid: allCourseIds });
+  }
+  setSelectAllCourses(!selectAllCourses); // Toggle "Select All" state
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
 
-
+      console.log("api response before----------------", formData)
   const response = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_API}/api/quizbank`,formData)
-  //console.log("api response----------------", response)
+  console.log("api response----------------", response)
 
       if(response.data.status===0){
        
@@ -227,11 +249,18 @@ handleReset()
 
       <div className={styles.outerview}>
         <label>Select Courses</label>
+        <span
+    className="text-blue-500 cursor-pointer"
+    onClick={handleSelectAll}
+  >
+    {selectAllCourses ? 'Deselect All' : 'Select All'}
+  </span>
         <div className="broder  grid grid-cols-2">
         { courselist && courselist.map((item, key) => (
     <div key={key} className="flex flex-row gap-2 ">
         <input 
             type="checkbox" 
+            className="w-4 border border-red-500"
             name="courseid"
             id={item.id} 
             checked={formData.courseid.includes(item.id)?item.id:""} // Ensure checkbox reflects state

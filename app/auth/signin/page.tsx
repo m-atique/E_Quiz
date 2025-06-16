@@ -201,7 +201,7 @@ console.log(response?.user)
           }} 
       >
 
-        <h1 className='font-extrabold text-3xl capitalize w-full  bg-gradient-to-bl bg-clip-text text-transparent  from-indigo-900 to-slate-900 drop-shadow-xl'>  e-Quiz Repository  </h1>
+        <h1 className='font-extrabold text-3xl  w-full  bg-gradient-to-bl bg-clip-text text-transparent  from-indigo-900 to-slate-900 drop-shadow-xl'>  e-Examination System  </h1>
         <form onSubmit={handleSubmit}>
         <Card className="w-[500px] items-center justify-center drop-shadow-2xl bg-slate-300">
         <CardHeader className="space-y-1 ">

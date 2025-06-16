@@ -41,7 +41,7 @@ const Paper = ({ course, subject, medium, totalQuizzes, data, totalMarks, instru
           <h3 className="text-lg font-semibold  ">Subject:{subject ? subject.label : "N/A"}</h3> */}
           </div>
           <div className="flex justify-between mt-1">
-            <h3 className="text-lg font-semibold">Total Quizzes: {totalQuizzes}</h3>
+            <h3 className="text-lg font-semibold">Total Questions: {totalQuizzes}</h3>
             <h3 className="text-lg font-semibold">Total Time: {`${ time.hrs} hrs ${time.min} min`}</h3>
             <h3 className="text-lg font-semibold">Total Marks: {totalMarks}</h3>
           </div>

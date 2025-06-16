@@ -15,12 +15,12 @@ import {  signOut, useSession } from "next-auth/react";
 
 export const Heading= ({ pathname }) => {
   return (
-    <div className="text-3xl font-sans text-qfocus font-semibold uppercase flex flex-row gap-3 items-center justify-start">
+    <div className="text-3xl font-sans text-qfocus font-semibold  flex flex-row gap-3 items-center justify-start">
       <Link href={pathname} className="bg-[url('/logo.png')] w-8 h-8 bg-cover">
         {/* This div acts as a logo icon */}
       </Link>
       <span className=" lowercase font-mutka text-4xl -rotate-[25deg] ">e</span>
-      <span>Quiz Repository</span>
+      <span className="">Examination System</span>
     </div>
   );
 };
@@ -44,7 +44,7 @@ export default function SuperAdminHeader() {
             <Link href={'/super_admin/epaper'}>
               <div className="flex items-center space-x-1 text-qfocus ">
                
-                <span>Quiz Maker</span>
+                <span>Generate Paper</span>
               </div>
             </Link>
           </MenubarTrigger>

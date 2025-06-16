@@ -36,7 +36,40 @@ import { Heading } from "../super_admin/superAdminHeader";
   
         {/* Align Menubar to the right */}
         <Menubar className="menubar  shadow-none bg-transparent outline-none border-none ml-auto  p-0">
-  
+
+        <MenubarMenu  >
+            <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+              <Link href={'/user/'}>
+                <div className="flex items-center space-x-1 text-qfocus ">
+                 
+                  <span>Home</span>
+                </div>
+              </Link>
+            </MenubarTrigger>
+          </MenubarMenu>
+
+        <MenubarMenu  >
+            <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+              <Link href={'/user/addCourse'}>
+                <div className="flex items-center space-x-1 text-qfocus ">
+                 
+                  <span>Add Course</span>
+                </div>
+              </Link>
+            </MenubarTrigger>
+          </MenubarMenu>
+
+
+        <MenubarMenu  >
+            <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
+              <Link href={'/user/addSubject'}>
+                <div className="flex items-center space-x-1 text-qfocus ">
+                 
+                  <span>Add Subjects</span>
+                </div>
+              </Link>
+            </MenubarTrigger>
+          </MenubarMenu>
        
           <MenubarMenu  >
             <MenubarTrigger className = 'data-[state=open]:bg-transparent data-[state=open]:border-b-4 data-[state=open]:border-b-yellow-500 data-[state=open]:h-20 hover:text-yellow-200 rounded-none' >
@@ -78,8 +111,8 @@ import { Heading } from "../super_admin/superAdminHeader";
           detail='Are you sure to Log out'
           onOk={() => {signOut(); setshowModal(false)}}
           ok="Yes"
-          cancel="cancel"
-          type ='signout'
+          cancel="Cancel"
+          type ='Sign Out'
           />
       </div>
     );

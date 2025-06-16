@@ -32,7 +32,7 @@ const authOptions = {
    
         if (result?.data.message =='Login Successfully') {
           const user = result.data
-        
+        //console.log("user", user);
        
           return user
         }else  if (result?.data.message == "Username or password not matched") {
@@ -54,7 +54,8 @@ const authOptions = {
       if (user){ 
        token.role = user.utype
        token.token = user.token
-      //  token.name = user.name
+      token.name = user.uname
+      token.rank = user.rank
        
       }  
       return token
@@ -62,7 +63,8 @@ const authOptions = {
     session({ session, token }) {
       session.user.token = token.token
       session.user.role = token.role                           
-      // session.user.id = token.id   
+     session.user.name = token.name
+      session.user.rank = token.rank
 
       return session
     },
